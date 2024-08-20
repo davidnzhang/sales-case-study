@@ -19,7 +19,10 @@ flattened_hierarchy as (
 
 final as (
     select
+        -- surrogate key
         {{ dbt_utils.generate_surrogate_key(['product_id']) }} as product_key,
+
+        -- product attributes
         product_name,
         category_name,
         product_price_dollars

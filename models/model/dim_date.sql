@@ -10,7 +10,10 @@ with recursive date_spine as (
 
 dates as (
     select
+        -- date key
         calendar_date as date,
+
+        -- date attributes
         extract(isodow from calendar_date) as day_of_week,
         case
             when extract(isodow from calendar_date) in (6, 7) then true

@@ -7,7 +7,7 @@ final as (
         -- surrogate key
         {{ dbt_utils.generate_surrogate_key(['customer_id']) }} as customer_key,
 
-        -- attributes
+        -- customer attributes
         customer_name,
         customer_age,
         customer_gender,

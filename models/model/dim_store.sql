@@ -4,7 +4,10 @@ with staged_stores as (
 
 final as (
     select
+        -- surrogate key
         {{ dbt_utils.generate_surrogate_key(['store_id']) }} as store_key,
+
+        -- store attributes
         store_name,
         store_city,
         store_manager_first_name

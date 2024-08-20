@@ -4,7 +4,10 @@ with staged_promotions as (
 
 final as (
     select
+        -- surrogate key
         {{ dbt_utils.generate_surrogate_key(['promotion_id']) }} as promotion_key,
+
+        -- promotion attributes
         promotion_name,
         promotion_start_date,
         promotion_end_date,
