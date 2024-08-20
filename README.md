@@ -20,34 +20,36 @@ This case study attempts to create a simple star schema model based on normalise
 ## Analysis Notes
 
 * The multivalued product dimension makes it a bit trickier to analyse sales amount by product without further information about the units sold in each product bundle. However, to answer a question like "What was the total revenue for sales where an Electronics product was part of the product bundle" we might construct a query as below:
-> with flattened as (
->	select
->		fct_sales.order_date,
->		fct_sales.order_id,
->		dim_date.financial_year,
->		fct_sales.sales_amount_dollars,
->		dim_bundled_product.bundled_product_name,
->		string_agg(product_category, ',' order by product_category) as bundled_product_categories
->	from model.fct_sales
->	inner join model.dim_bundled_product
->		on fct_sales.bundled_product_key = dim_bundled_product.bundled_product_key
->	inner join model.bdg_bundled_product_product
->		on dim_bundled_product.bundled_product_key = bdg_bundled_product_product.bundled_product_key
->	inner join model.dim_product
->		on bdg_bundled_product_product.product_key = dim_product.product_key
->	inner join model.dim_date
->		on fct_sales.order_date = dim_date.date
->	group by 1,2,3,4,5
->	order by 1
->)
->
->select
->	financial_year,
->	sum(sales_amount_dollars) as total_sales_amount_dollars
->from flattened
->where 1=1
->	and bundled_product_categories like '%Electronics%'
->group by 1
->order by 1;
+```
+with flattened as (
+	select
+		fct_sales.order_date,
+		fct_sales.order_id,
+		dim_date.financial_year,
+		fct_sales.sales_amount_dollars,
+		dim_bundled_product.bundled_product_name,
+		string_agg(product_category, ',' order by product_category) as bundled_product_categories
+	from model.fct_sales
+	inner join model.dim_bundled_product
+		on fct_sales.bundled_product_key = dim_bundled_product.bundled_product_key
+	inner join model.bdg_bundled_product_product
+		on dim_bundled_product.bundled_product_key = bdg_bundled_product_product.bundled_product_key
+	inner join model.dim_product
+		on bdg_bundled_product_product.product_key = dim_product.product_key
+	inner join model.dim_date
+		on fct_sales.order_date = dim_date.date
+	group by 1,2,3,4,5
+	order by 1
+)
+
+select
+	financial_year,
+	sum(sales_amount_dollars) as total_sales_amount_dollars
+from flattened
+where 1=1
+	and bundled_product_categories like '%Electronics%'
+group by 1
+order by 1;
+```
 
 ![alt text](images/electronics_query.png)
