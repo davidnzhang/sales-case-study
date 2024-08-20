@@ -10,7 +10,7 @@ flattened_hierarchy as (
     select
         staged_products.product_id,
         staged_products.product_name,
-        staged_categories.category_name,
+        staged_categories.product_category,
         staged_products.product_price_dollars
     from staged_products
     left join staged_categories
@@ -24,7 +24,7 @@ final as (
 
         -- product attributes
         product_name,
-        category_name,
+        product_category,
         product_price_dollars
     from flattened_hierarchy
 
@@ -33,7 +33,7 @@ final as (
     select
         {{ dbt_utils.generate_surrogate_key(['null']) }} as product_key,
         'Unknown' as product_name,
-        'Unknown' as category_name,
+        'Unknown' as product_category,
         null as product_price_dollars
 )
 

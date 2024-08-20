@@ -5,7 +5,7 @@ with source as (
 renamed as (
     select
         "CategoryID"::int as category_id,
-        "CategoryName"::varchar as category_name
+        "CategoryName"::varchar as product_category
     from source
 )
 
