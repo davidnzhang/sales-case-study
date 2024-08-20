@@ -9,4 +9,4 @@ renamed as (
     from source
 )
 
-select * from renamed
+select distinct on (bundled_product_id, product_id) * from renamed
