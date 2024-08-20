@@ -1,0 +1,13 @@
+CustomerID,Name,Age,Gender,City
+5001,John Doe,28.0,M,New York
+5002,Jane Smith,34.0,F,Los Angeles
+5003,Jim Brown,45.0,M,Chicago
+5004,Susan Green,23.0,F,San Francisco
+5005,Tom White,39.0,M,Miami
+5006,Alex Brown,50.0,M,Houston
+5007,Mary Johnson,29.0,F,New York
+5008,Chris Davis,,M,Chicago
+5009,Sara Wilson,27.0,F,San Francisco
+5010,James Moore,31.0,,Miami
+5011,Patricia Taylor,33.0,F,Los Angeles
+5003,Jim Brown,45.0,M,Chicago

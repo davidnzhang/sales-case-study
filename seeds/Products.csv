@@ -1,0 +1,18 @@
+ProductID,ProductName,CategoryID,Price
+2001,Product A,100,150.0
+2002,Product B,101,200.0
+2003,Product C,102,300.0
+2004,Product D,103,100.0
+2005,Product E,104,350.0
+2006,Product F,100,400.0
+2007,Product G,101,250.0
+2008,Product H,102,150.0
+2009,Product I,103,200.0
+2010,Product J,104,300.0
+2011,Product K,100,500.0
+2004,Product D,103,100.0
+2012,Product L,101,600.0
+2013,Product M,102,700.0
+2014,Product N,103,800.0
+2015,Product O,104,
+2016,Product P,100,900.0
