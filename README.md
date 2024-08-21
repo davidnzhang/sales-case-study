@@ -9,9 +9,11 @@ This repo uses Dockerised instances of Postgres and dbt Core to deploy a star sc
 
 Raw files are loaded to a "raw" schema `postgres.raw` via [dbt seeds](https://docs.getdbt.com/reference/commands/seed). This is then passed to a "staging" schema `postgres.stage` where light transformation tasks such as deduplication, renaming, data typing, and null handling take place. Staged models are then used to directly create the facts, dimensions, and bridge table in a "modelling" schema `postgres.model`. No intermediate models and schemas are required between staging and modeling in this particular case study.
 
+Definitions for raw, staged, and modelled data can be found in the `seeds`, `models/stage`, `models/model` folders respectively. On `dbt run` these models are created as tables in the postgres database using DDL similar to a CTAS operation.
+
 ## Data Modelling Notes
 
-This case study attempts to create a simple star schema model based on randomly-generated, normalised sales data provided as csv files. The modelling exercise appears to be straight forward with the exception of the following observations:
+This case study attempts to create a simple star schema model based on randomly-generated, normalised sales data. The modelling exercise appears to be straight forward with the exception of the following observations:
 ### Many-to-many relationship between product bundles and products ###
 There appear to be no clear relationships or patterns to allow us to infer units of each product sold in each bundle for each sale. If this was actual sales data, the wide variability between total sales amount and the total unit cost of products in each product bundle suggest there are other factors at play, possibly requiring a weighting factor to be applied to each product in the bridge. Additional information from point of sales systems is likely required (e.g. units sold per bundle, currency units, additional discounts applied) to better understand the sales performance of individual products.
 ### One-to-one or many-to-one relationship between promotions and product bundles ###
@@ -23,7 +25,9 @@ Surrogate keys have been created using the `dbt_utils.generate_surrogate_keys` f
 
 ## Analysis Notes
 
-The multivalued product dimension makes it difficult to analyse sales amounts by product without further information supplied about the units sold in each product bundle, as the provided price and discount attributes do not match up to the total sales amount of each sale. However, to answer high-level questions like "What was the total revenue for sales in each FY where an Electronics product was part of the product bundle" we might construct a query as below:
+The multivalued product dimension makes it difficult to analyse sales amounts by product without further information supplied about the units sold in each product bundle, as the provided price and discount attributes do not match up to the total sales amount of each sale.
+
+However, to answer high-level questions like "What was the total revenue for sales in each FY where an Electronics product was part of the product bundle" we might construct a query as below:
 ```
 with flattened as (
 	select
